@@ -1,0 +1,195 @@
+import React, { useState } from 'react';
+import { Container, Row, Col, Card, Button, Modal } from 'react-bootstrap';
+
+import project1 from '../images/project1.jpg';
+import project2 from '../images/project2.jpg';
+import project3 from '../images/project3.jpg';
+
+const Projects = () => {
+  const projects = [
+    {
+      id: 1,
+      title: 'Travelogue',
+      img: project1,
+      description: 'An app for travelers to share their travels far and wide.',
+      details: {
+        overview:
+          'Travelogue is more than just a travel app; it is a platform where users can plan, book, and manage their trips while connecting with a community of fellow travelers.',
+        features: [
+          'Login/Sign up',
+          'Home',
+          'Account',
+          'Feed',
+          'Budget Details',
+          'Booking a Trip',
+          'Finding Destination',
+          'Reservations',
+          'Payment',
+        ],
+        link:
+          'https://www.figma.com/proto/ude9IguJHP2z253p1EN0oP/Travelogue-Case-Study?node-id=2-977&starting-point-node-id=2%3A977&t=IIBbJESTsKrxDrFZ-1',
+      },
+    },
+    {
+      id: 2,
+      title: 'EquiCity',
+      img: project2,
+      description:
+        'A Web-Based Urban Planning Tool for Smarter Growth and Traffic Management in Lipa City.',
+      details: {
+        overview:
+          'A location intelligence application that recommends optimal sites for future commercial development based on real-time traffic data, population density, and existing infrastructure.',
+        functionalities: [
+          'Smart Location Recommendation',
+          'Location Insight Map',
+          'Commercial Hub Gauge',
+        ],
+        algorithms: [
+          'Weighted Multi-Criteria Decision Analysis',
+          'Kernel Density Estimation',
+          'Regression Model for Traffic Estimation',
+        ],
+        link:
+          'https://www.canva.com/design/DAGo_0HiTdw/wsCVRiXIybOE7U1NhVu2JQ/edit',
+      },
+    },
+    {
+      id: 3,
+      title: 'OKS!',
+      img: project3,
+      description:
+        'Operation Keep Safe: Enhancing Crisis Management for Higher Education Institutions in Lipa.',
+      details: {
+        overview:
+          'Safety status reporting and crisis coordination during emergencies.',
+        features: [
+          'Crisis Information',
+          'Survey',
+          'Help Button',
+          'Progress Timeline',
+          'Reports and Charts',
+          'Donation Tab',
+          'Volunteer Tab',
+        ],
+        link:
+          'https://www.canva.com/design/DGoz-42Y1s/wd_O1DIk-MGjWzWPx9vE5Q/edit',
+      },
+    },
+  ];
+
+  const [selected, setSelected] = useState(null);
+
+  return (
+    <section id="projects" className="projects-section py-5">
+      <Container>
+        <h2 className="text-center mb-5 section-title">My Projects</h2>
+        <Row className="g-4 justify-content-center">
+          {projects.map((p) => (
+            <Col key={p.id} xs={12} md={6} lg={4} className="d-flex">
+              <Card className="project-card h-100 w-100">
+                <div className="card-img-container">
+                  <Card.Img
+                    variant="top"
+                    src={project.img} // Using imported image
+                    alt={project.title}
+                    className="img-fluid"
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        'https://via.placeholder.com/400x300?text=Project+Image';
+                      e.currentTarget.style.border =
+                        '2px dashed var(--pink-dark)';
+                    }}
+                  />
+                </div>
+                <Card.Body className="d-flex flex-column">
+                  <Card.Title className="text-center">{p.title}</Card.Title>
+                  <Card.Text className="text-center">{p.description}</Card.Text>
+                  <Button
+                    variant="custom"
+                    className="mt-auto"
+                    onClick={() => setSelected(p)}
+                  >
+                    View Details
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+
+      <Modal show={!!selected} onHide={() => setSelected(null)} size="lg" centered>
+        {selected && (
+          <>
+            <Modal.Header closeButton>
+              <Modal.Title>{selected.title} Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <img
+                src={selected.img}
+                alt={selected.title}
+                className="img-fluid mb-3"
+                onError={(e) => {
+                  e.currentTarget.src =
+                    'https://via.placeholder.com/800x400?text=Project+Image';
+                  e.currentTarget.style.border =
+                    '2px dashed var(--pink-dark)';
+                }}
+              />
+              <h4>Project Overview</h4>
+              <p>{selected.details.overview}</p>
+
+              {selected.details.features && (
+                <>
+                  <h4>Features</h4>
+                  <ul>
+                    {selected.details.features.map((f, i) => (
+                      <li key={i}>{f}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {selected.details.functionalities && (
+                <>
+                  <h4>Functionalities</h4>
+                  <ul>
+                    {selected.details.functionalities.map((f, i) => (
+                      <li key={i}>{f}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {selected.details.algorithms && (
+                <>
+                  <h4>Algorithms</h4>
+                  <ul>
+                    {selected.details.algorithms.map((a, i) => (
+                      <li key={i}>{a}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              <a
+                href={selected.details.link}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                View Project Documentation
+              </a>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="custom" onClick={() => setSelected(null)}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </>
+        )}
+      </Modal>
+    </section>
+  );
+};
+
+export default Projects;
