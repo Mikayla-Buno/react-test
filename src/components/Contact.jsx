@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-//import emailjs from '@emailjs/browser';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -23,23 +22,15 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    emailjs.send(
-      'YOUR_SERVICE_ID', 
-      'YOUR_TEMPLATE_ID',
-      formData,
-      'YOUR_PUBLIC_KEY'
-    )
-    .then(() => {
+    // Simulate successful submission
+    setTimeout(() => {
       setShowAlert(true);
       setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setShowAlert(false), 3000);
-    })
-    .catch(error => {
-      console.error('Failed to send message:', error);
-    })
-    .finally(() => {
       setIsSubmitting(false);
-    });
+
+      // Hide alert after 3 seconds
+      setTimeout(() => setShowAlert(false), 3000);
+    }, 1000);
   };
 
   return (
@@ -84,9 +75,8 @@ const Contact = () => {
               </Form.Group>
               
               <Button 
-                variant="custom" 
-                type="submit" 
-                className="w-100"
+                className="btn-custom w-100"
+                type="submit"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
@@ -98,7 +88,17 @@ const Contact = () => {
 
       {/* Alert */}
       {showAlert && (
-        <div className="alert-pink">
+        <div 
+          className="alert-pink position-fixed text-white font-weight-bold"
+          style={{ 
+            top: '20px', 
+            right: '20px', 
+            zIndex: 9999, 
+            padding: '12px 20px', 
+            borderRadius: '8px',
+            backgroundColor: '#C38E8E'  // Pink background
+          }}
+        >
           Thank you for your message! I will get back to you soon.
         </div>
       )}
